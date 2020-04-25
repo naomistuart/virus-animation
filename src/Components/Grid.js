@@ -6,7 +6,8 @@ class Grid extends React.Component {
     render() {
         let grid = [];
         for (let i = 0; i < Math.pow(this.props.gridDimension, 2); i++) {
-            grid.push(<Node nodeDimension={this.props.nodeDimension} />)
+            grid.push(<Node nodeDimension={this.props.nodeDimension}/>);
+
         }
 
         let gridStyle = {
