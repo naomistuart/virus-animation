@@ -14,32 +14,43 @@ class Grid extends React.Component {
             statusGrid: [],
             playAnimation: false
         }
-        this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
         this.handleStepButtonClick = this.handleStepButtonClick.bind(this);
-        this.findNumberOfInfectedNeighbours = this.findNumberOfInfectedNeighbours.bind(this);
-
+        this.togglePlayPause = this.togglePlayPause.bind(this);
+        this.resetAnimation = this.resetAnimation.bind(this);
     }
 
     componentDidMount() {
-        // Initialise grid
-        let initialNodeGrid = [];
-        let initialStatusGrid = [];
+        this.setUpGrid();
+    }
+
+    setUpGrid() {
+        let nodeGrid = [];
+        let statusGrid = [];
         for (let i = 0; i < this.props.gridDimension; i++) {
             let nodeRow = [];
             let statusRow = [];
             for (let j = 0; j < this.props.gridDimension; j++) {
-                let nodeIsInfected = Math.random() <= this.props.infectionRate;
+                let nodeIsInfected = this.props.startWithSingleInfectedNode ? false : Math.random() <= this.props.infectionRate;
                 statusRow[j] = nodeIsInfected;
                 nodeRow[j] = <Node key={`${i}-${j}`}
-                    nodeDimension={this.props.nodeDimension}
-                    infected={nodeIsInfected} />;
+                                   nodeDimension={this.props.nodeDimension}
+                                   infected={nodeIsInfected} />;
             }
-            initialNodeGrid[i] = nodeRow;
-            initialStatusGrid[i] = statusRow;
+            nodeGrid[i] = nodeRow;
+            statusGrid[i] = statusRow;
         }
+
+        if (this.props.startWithSingleInfectedNode) {
+            let middleIndex = Math.floor(this.props.gridDimension / 2);
+            nodeGrid[middleIndex][middleIndex] = <Node key={`${middleIndex}-${middleIndex}`}
+                                                       nodeDimension={this.props.nodeDimension}
+                                                       infected={true} />;
+            statusGrid[middleIndex][middleIndex] = true;
+        }
+
         this.setState({
-            nodeGrid: initialNodeGrid,
-            statusGrid: initialStatusGrid
+            nodeGrid: nodeGrid,
+            statusGrid: statusGrid
         });
     }
 
@@ -47,24 +58,38 @@ class Grid extends React.Component {
         clearInterval(this.timerID);
     }
 
-    handlePlayButtonClick() {
-        if (!this.state.playAnimation) {
-            this.timerID = setInterval(
-                () => this.tick(), this.props.animationSpeed
-            );
-        } else {
-            clearInterval(this.timerID);
-        }
+    togglePlayPause() {
+        //why does this line have to go first???
+        !this.state.playAnimation ? this.playAnimation() : this.pauseAnimation();
+
         this.setState({
             playAnimation: !this.state.playAnimation
         });
+    }
+
+    playAnimation() {
+        this.timerID = setInterval(
+            () => this.tick(), this.props.animationSpeed
+        );
+    }
+
+    pauseAnimation() {
+        clearInterval(this.timerID);
+    }
+
+    resetAnimation() {
+        clearInterval(this.timerID);
+        this.setState({
+            playAnimation: false,
+        });
+        this.setUpGrid();
+
     }
 
     handleStepButtonClick() {
         this.setState({
             playAnimation: false,
         });
-
         clearInterval(this.timerID);
         this.tick();
     }
@@ -106,14 +131,14 @@ class Grid extends React.Component {
                     let nodeIsInfected = statusGrid[i][j];
                     newStatusRow[j] = nodeIsInfected;
                     newNodeRow[j] = <Node key={`${i}-${j}`}
-                        nodeDimension={this.props.nodeDimension}
-                        infected={nodeIsInfected} />;
+                                          nodeDimension={this.props.nodeDimension}
+                                          infected={nodeIsInfected} />;
                 } else {
                     let nodeIsInfected = (Math.random() <= (1 - Math.pow((1 - this.props.infectionRate), numInfectedNeighbours)));
                     newStatusRow[j] = nodeIsInfected;
                     newNodeRow[j] = <Node key={`${i}-${j}`}
-                        nodeDimension={this.props.nodeDimension}
-                        infected={nodeIsInfected} />;
+                                          nodeDimension={this.props.nodeDimension}
+                                          infected={nodeIsInfected} />;
                 }
             }
             newStatusGrid[i] = newStatusRow;
@@ -130,7 +155,7 @@ class Grid extends React.Component {
     render() {
         let gridStyle = {
             'display': 'grid',
-            'gridGap': '0.2em',
+            'gridGap': '0.1em',
             'gridTemplateRows': `repeat(${this.props.gridDimension}, ${this.props.nodeDimension}px)`,
             'gridTemplateColumns': `repeat(${this.props.gridDimension}, ${this.props.nodeDimension}px)`
         };
@@ -141,11 +166,14 @@ class Grid extends React.Component {
                     {this.state.nodeGrid}
                 </div>
 
-                <IconButton variant="contained" onClick={this.handlePlayButtonClick}>
+                <IconButton variant="contained" onClick={this.togglePlayPause}>
                     {this.state.playAnimation ? <PauseIcon /> : <PlayArrowIcon />}
                 </IconButton>
                 <Button variant="contained" onClick={this.handleStepButtonClick}>
                     Step
+                </Button>
+                <Button variant="contained" onClick={this.resetAnimation}>
+                    Reset
                 </Button>
             </div>
         );
