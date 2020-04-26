@@ -21,6 +21,8 @@ class Grid extends React.Component {
 
     componentDidMount() {
         this.setUpGrid();
+        // let node = new Node();
+        // node.print();
     }
 
     setUpGrid() {
@@ -83,7 +85,6 @@ class Grid extends React.Component {
             playAnimation: false,
         });
         this.setUpGrid();
-
     }
 
     handleStepButtonClick() {

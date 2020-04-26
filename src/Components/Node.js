@@ -2,6 +2,23 @@ import React from 'react';
 import Constants from '../Util/Constants'
 
 class Node extends React.Component {
+    //setStatus
+
+
+    //step
+
+    
+
+
+    //getStatus
+
+    //setEventualStatus
+    //getEventualStatus
+
+    print(){
+        console.log("a");
+        }
+
     render() {
         let nodeStyle = {
             'width': this.props.nodeDimension,

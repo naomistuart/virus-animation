@@ -8,8 +8,9 @@ class App extends React.Component {
       <Grid nodeDimension={12}
             gridDimension={40}
             infectionRate={0.15}
-            animationSpeed={500}
-            startWithSingleInfectedNode={false}
+            deathRate={0.03}
+            animationSpeed={15}
+            startWithSingleInfectedNode={true}
       />
     )
   }
