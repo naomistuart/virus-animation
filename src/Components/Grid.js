@@ -6,7 +6,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-import ParameterControls from './ParameterControls';
+import Slider from '@material-ui/core/Slider';
+import sliderMarks from '../Util/sliderMarks';
+import '../App.css';
 
 class Grid extends React.Component {
 
@@ -16,11 +18,18 @@ class Grid extends React.Component {
             nodeGrid: [],
             statusGrid: [],
             playAnimation: false,
-            deathRate: 0.2
+            deathRate: 0.08
         }
         this.handleStepButtonClick = this.handleStepButtonClick.bind(this);
         this.togglePlayPause = this.togglePlayPause.bind(this);
         this.resetAnimation = this.resetAnimation.bind(this);
+        this.handleDeathRateChange = this.handleDeathRateChange.bind(this);
+    }
+
+    handleDeathRateChange(event, value) {
+        this.setState({
+            deathRate: value / 100
+        })
     }
 
     componentDidMount() {
@@ -50,7 +59,7 @@ class Grid extends React.Component {
     setNodeEventualStatus(currentStatus) {
         if (currentStatus !== statuses.INFECTED) {
             return currentStatus;
-        } else if (Math.random() <= this.props.deathRate) {
+        } else if (Math.random() <= this.state.deathRate) {
             return statuses.DEAD;
         } else {
             return statuses.RECOVERED;
@@ -255,7 +264,18 @@ class Grid extends React.Component {
                 </Button>
 
                 {/* Parameter controls */}
-                <ParameterControls />
+                <div className="slider">
+                    <Slider
+                        value={Math.round(this.state.deathRate * 100)}
+                        onChange={this.handleDeathRateChange}
+                        aria-labelledby="discrete-slider"
+                        valueLabelDisplay="auto"
+                        step={1}
+                        marks={sliderMarks}
+                        min={0}
+                        max={100}
+                    />
+                </div>
 
             </div>
         );

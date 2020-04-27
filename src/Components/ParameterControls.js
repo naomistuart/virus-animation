@@ -7,10 +7,10 @@ class ParamaterControls extends React.Component {
         this.handleDeathRateChange = this.handleDeathRateChange.bind(this);
     }
 
-    handleDeathRateChange(e) {
-        this.props.onDeathRateChange(e.target.value);
+    handleDeathRateChange(event, value) {
+        this.props.onDeathRateChange(value);
     }
-    
+
     render() {
         return (
             <div>
@@ -19,10 +19,10 @@ class ParamaterControls extends React.Component {
                     onChange={this.handleDeathRateChange}
                     aria-labelledby="discrete-slider"
                     valueLabelDisplay="auto"
-                    step={1}
+                    step={0.01}
                     marks
                     min={0}
-                    max={100}
+                    max={1}
                 />
             </div>
         )
