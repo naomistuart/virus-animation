@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
+import ParameterControls from './ParameterControls';
 
 class Grid extends React.Component {
 
@@ -14,7 +15,8 @@ class Grid extends React.Component {
         this.state = {
             nodeGrid: [],
             statusGrid: [],
-            playAnimation: false
+            playAnimation: false,
+            deathRate: 0.2
         }
         this.handleStepButtonClick = this.handleStepButtonClick.bind(this);
         this.togglePlayPause = this.togglePlayPause.bind(this);
@@ -151,82 +153,67 @@ class Grid extends React.Component {
 
         if (i < this.props.gridDimension - 1) { // Check bottom neighbour
             numInfectedNeighbours = statusGrid[i + 1][j].currentStatus===statuses.INFECTED ? numInfectedNeighbours + 1 : numInfectedNeighbours;
-            //console.log('bottom: ' + numInfectedNeighbours);
         }
         if (i > 0) { // Check top neighbour
             numInfectedNeighbours = statusGrid[i - 1][j].currentStatus===statuses.INFECTED ? numInfectedNeighbours + 1 : numInfectedNeighbours;
-            //console.log('top: ' + numInfectedNeighbours);
         }
         if (j < this.props.gridDimension - 1) { // Check right neighbour
             numInfectedNeighbours = statusGrid[i][j + 1].currentStatus===statuses.INFECTED ? numInfectedNeighbours + 1 : numInfectedNeighbours;
-            //console.log('right: ' + numInfectedNeighbours);
         }
         if (j > 0) { // Check left neighbour
             numInfectedNeighbours = statusGrid[i][j - 1].currentStatus===statuses.INFECTED ? numInfectedNeighbours + 1 : numInfectedNeighbours;
-            //console.log('left: ' + numInfectedNeighbours);
         }
         
         return numInfectedNeighbours;
     }
 
     tick() {
-        let newNodeGrid = [];
-
         let statusGrid = this.state.statusGrid;
+        let newNodeGrid = [];
         let newStatusGrid = [];
 
         for (let i = 0; i < this.props.gridDimension; i++) {
             let newNodeRow = [];
             let newStatusRow = [];
 
-
             for (let j = 0; j < this.props.gridDimension; j++) {    
-
                 let numInfectedNeighbours;
                 let nodeStatus;
                 let nodeEventualStatus;
                 let nodeStepsToEventualStatus;
-
                 let oldStatus = statusGrid[i][j];
 
                 newStatusRow[j] = new NodeStatus(oldStatus.currentStatus, oldStatus.eventualStatus, oldStatus.stepsToEventualStatus);
 
-                // Updates only required if node is currently infected or susceptible
-                // No updates required if node is already recovered or dead
-                if (statusGrid[i][j].currentStatus===statuses.INFECTED) {
+                if (statusGrid[i][j].currentStatus === statuses.INFECTED) {
                     if (statusGrid[i][j].stepsToEventualStatus === 0 ) {
                         newStatusRow[j].currentStatus = statusGrid[i][j].eventualStatus;
                         newNodeRow[j] = <Node key={`${i}-${j}`}
-                                                  nodeDimension={this.props.nodeDimension}
-                                                  status={statusGrid[i][j].eventualStatus} />;
+                                              nodeDimension={this.props.nodeDimension}
+                                              status={statusGrid[i][j].eventualStatus} />;
                     } else {
                         newStatusRow[j].stepsToEventualStatus--;
                         newNodeRow[j] = <Node key={`${i}-${j}`}
-                                        nodeDimension={this.props.nodeDimension}
-                                        status={newStatusRow[j].currentStatus} />;
+                                              nodeDimension={this.props.nodeDimension}
+                                              status={newStatusRow[j].currentStatus} />;
                     }
-                } else if (statusGrid[i][j].currentStatus===statuses.SUSCEPTIBLE) {
-                    //console.log(statusGrid);
+                } else if (statusGrid[i][j].currentStatus === statuses.SUSCEPTIBLE) {
                     numInfectedNeighbours = this.findNumberOfInfectedNeighbours(statusGrid, i, j);
-                    // console.log('total infected neighbours: ' + numInfectedNeighbours);
-
                     nodeStatus = this.setNodeInfectionStatus(numInfectedNeighbours);
                     nodeEventualStatus = this.setNodeEventualStatus(nodeStatus);
                     nodeStepsToEventualStatus = this.setNodeStepsToEventualStatus(nodeEventualStatus);
-
-
 
                     newStatusRow[j].currentStatus = nodeStatus;
                     newStatusRow[j].eventualStatus = nodeEventualStatus;
                     newStatusRow[j].stepsToEventualStatus = nodeStepsToEventualStatus;
 
                     newNodeRow[j] = <Node key={`${i}-${j}`}
-                                              nodeDimension={this.props.nodeDimension}
-                                              status={nodeStatus} />;
-                } else{
+                                          nodeDimension={this.props.nodeDimension}
+                                          status={nodeStatus} />;
+                } else {
                     newNodeRow[j] = <Node key={`${i}-${j}`}
-                                    nodeDimension={this.props.nodeDimension}
-                                    status={newStatusRow[j].currentStatus} />;
+                                          nodeDimension={this.props.nodeDimension}
+                                          status={newStatusRow[j].currentStatus} />;
                 }
             }
 
@@ -234,9 +221,6 @@ class Grid extends React.Component {
             newStatusGrid[i] = newStatusRow;
         }
 
-        //console.log('--------------')
-
-        // Update grids
         this.setState({
             nodeGrid: newNodeGrid,
             statusGrid: newStatusGrid,
@@ -269,6 +253,9 @@ class Grid extends React.Component {
                 <Button variant="contained" onClick={this.resetAnimation}>
                     Reset
                 </Button>
+
+                {/* Parameter controls */}
+                <ParameterControls />
 
             </div>
         );
