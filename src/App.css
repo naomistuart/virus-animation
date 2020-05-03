@@ -62,22 +62,26 @@ p, li {
 
 .infected {
   background: #ffc1bd;
-  padding: 2px 7px;
 }
 
 .susceptible {
   background: #ebebeb;
-  padding: 2px 7px;
 }
 
 .recovered {
   background: #beebc8;
-  padding: 2px 7px;
 }
 
 .dead {
   background: #525252;
+}
+
+.node {
   padding: 2px 7px;
+}
+
+.label {
+  padding: 2px;
 }
 
 h2 {

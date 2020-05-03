@@ -28,14 +28,14 @@ class Node extends React.PureComponent {
             'width': this.props.nodeDimension,
             'height': this.props.nodeDimension,
             'background': background,
-            'text-align': 'center',
-            'font-size': '20px',
+            'textAlign': 'center',
+            // 'fontSize': '12px',
             'display': 'inline-block',
-            'vertical-align': 'middle',
+            'verticalAlign': 'middle',
         };
 
         return (
-            <div style={nodeStyle}>{this.props.nodeText}</div>
+            <div style={nodeStyle}><span>{this.props.nodeText}</span></div>
         );
     }
 }

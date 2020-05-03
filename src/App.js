@@ -22,7 +22,7 @@ class App extends React.Component {
 
         <p>In these animations, we represent the population as a grid. Each square, or node, in the grid represents one person in the population.</p>
 
-        <p>The following grid models a population of 25 people. The person in the center is <span className='infected'><strong>infected</strong></span>. All other individuals are <span className='susceptible'><strong>susceptible</strong></span>, meaning they are not currently infected, but are at risk of becoming so.</p>
+        <p>The following grid models a population of 25 people. The person in the center is <span className='infected label'><strong>infected</strong></span>. All other individuals are <span className='susceptible label'><strong>susceptible</strong></span>, meaning they are not currently infected, but are at risk of becoming so.</p>
 
         <Grid nodeDimension={25}
               gridDimension={5}
@@ -62,7 +62,7 @@ class App extends React.Component {
               showPlaybackControls={true}
         />
 
-        <p>In this model, infected individuals eventually become <span className='recovered'><strong>recovered</strong></span>. Once recovered, they acquire immunity to the disease, meaning they can neither catch the disease again, nor continue infecting others.</p>
+        <p>In this model, infected individuals eventually become <span className='recovered label'><strong>recovered</strong></span>. Once recovered, they acquire immunity to the disease, meaning they can neither catch the disease again, nor continue infecting others.</p>
 
         <h3>Varying the transmission rate</h3>
 
@@ -79,7 +79,7 @@ class App extends React.Component {
 
         <p>The probability that an individual becomes infected depends not only on the transmission rate, but also on the <strong>number of infected neighbours</strong>.</p>
 
-        <p>In the example below, the node marked <span className='susceptible'>?</span> has two infected neighbours, marked <span className='infected'>1</span> and <span className='infected'>2</span>. Say the transmission rate is 40%. What is the probability that <span className='susceptible'>?</span> becomes infected?</p>
+        <p>In the example below, the node marked <span className='susceptible node'>?</span> has two infected neighbours, marked <span className='infected node'>1</span> and <span className='infected node'>2</span>. Say the transmission rate is 40%. What is the probability that <span className='susceptible node'>?</span> becomes infected?</p>
 
         <NonRandomGrid nodeDimension={25}
                        gridDimension={5}
@@ -90,9 +90,9 @@ class App extends React.Component {
 
         <p>It is, in fact, easier to first calculate the probability that <span className='susceptible'>?</span> does <em>not</em> become infected.</p>
 
-        <p>For each neighbour, the probability that <span className='susceptible'>?</span> does not become infected is <code>1 - transmission_rate = 1 - 0.4 = 0.6</code>. Since there are two infected neighbours, the probability that <span className='susceptible'>?</span> becomes infected by <em>neither</em> neighbour is <code>(1 - transmission_rate)&sup2; = (1 - 0.4)&sup2; = 0.36</code>.</p>
+        <p>For each neighbour, the probability that <span className='susceptible node'>?</span> does not become infected is <code>1 - transmission_rate = 1 - 0.4 = 0.6</code>. Since there are two infected neighbours, the probability that <span className='susceptible node'>?</span> becomes infected by <em>neither</em> neighbour is <code>(1 - transmission_rate)&sup2; = (1 - 0.4)&sup2; = 0.36</code>.</p>
 
-        <p>If the probability that <span className='susceptible'>?</span> does not become infected is <code>0.36</code>, this means the probability that it <em>does</em> become infected must be <code>1 - 0.36 = 0.64</code>.</p>
+        <p>If the probability that <span className='susceptible node'>?</span> does not become infected is <code>0.36</code>, this means the probability that it <em>does</em> become infected must be <code>1 - 0.36 = 0.64</code>.</p>
 
         <p>To generalise, the <strong>probability that an individual becomes infected</strong> at a particular time step can be calculated as follows:</p>
 
