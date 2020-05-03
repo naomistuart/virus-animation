@@ -1,8 +1,8 @@
 class Constants {
-    static INFECTED_COLOR = '#ffc1bd';
-    static SUSCEPTIBLE_COLOR = 'lightgrey';
-    static RECOVERED_COLOR = 'mediumseagreen';
-    static DEAD_COLOR = '#c7281e';
+    static INFECTED_COLOR = '#ffc1bd'; //red
+    static SUSCEPTIBLE_COLOR = '#ebebeb'; //light grey
+    static RECOVERED_COLOR = '#beebc8';  //light green
+    static DEAD_COLOR = '#525252'; //dark grey
     static ERROR_COLOR = 'yellow';
 }
 

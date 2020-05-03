@@ -1,43 +1,93 @@
 .App {
   text-align: center;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.slider {
+  width: 400px;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.slider-background {
+  margin: 5px 0px;
+  padding: 0px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.slider-title {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.button {
+  min-width: 80px !important;
+  margin: 5px !important;
+}
+
+.Hflex {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.Vflex {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Filler {
+  flex-grow: 1000;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Spacer {
+  width: 30px;
+  height: 15px;
 }
 
-.slider {
-  width: 300px;
-  margin: 10px;
+.EndSpacer {
+  width: 30px;
+  height: 100px;
+}
+
+p, li {
+  line-height: 1.5;
+}
+
+.infected {
+  background: #ffc1bd;
+  padding: 2px 7px;
+}
+
+.susceptible {
+  background: #ebebeb;
+  padding: 2px 7px;
+}
+
+.recovered {
+  background: #beebc8;
+  padding: 2px 7px;
+}
+
+.dead {
+  background: #525252;
+  padding: 2px 7px;
+}
+
+h2 {
+  border-bottom: 1px solid #e8e8e8;
+  width: 100%;
+}
+
+code {
+  background: #fdf6e3;
+  font-size: 14px;
+  color: #d33682;
+  padding: 3.5px;
 }

@@ -27,11 +27,15 @@ class Node extends React.PureComponent {
         let nodeStyle = {
             'width': this.props.nodeDimension,
             'height': this.props.nodeDimension,
-            'background': background
+            'background': background,
+            'text-align': 'center',
+            'font-size': '20px',
+            'display': 'inline-block',
+            'vertical-align': 'middle',
         };
 
         return (
-            <div style={nodeStyle}></div>
+            <div style={nodeStyle}>{this.props.nodeText}</div>
         );
     }
 }

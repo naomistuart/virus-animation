@@ -7,7 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import Slider from '@material-ui/core/Slider';
-import sliderMarks from '../Util/sliderMarks';
 import '../App.css';
 
 class Grid extends React.Component {
@@ -18,18 +17,42 @@ class Grid extends React.Component {
             nodeGrid: [],
             statusGrid: [],
             playAnimation: false,
-            deathRate: 0.08
+            deathRate: this.props.deathRate,
+            infectionRate: this.props.infectionRate,
+            stepsToRecovery: this.props.stepsToRecovery,
+            stepsToDeath: this.props.stepsToDeath
         }
         this.handleStepButtonClick = this.handleStepButtonClick.bind(this);
         this.togglePlayPause = this.togglePlayPause.bind(this);
         this.resetAnimation = this.resetAnimation.bind(this);
         this.handleDeathRateChange = this.handleDeathRateChange.bind(this);
+        this.handleInfectionRateChange = this.handleInfectionRateChange.bind(this);
+        this.handleStepsToRecoveryChange = this.handleStepsToRecoveryChange.bind(this);
+        this.handleStepsToDeathChange = this.handleStepsToDeathChange.bind(this);
     }
 
     handleDeathRateChange(event, value) {
         this.setState({
             deathRate: value / 100
-        })
+        });
+    }
+
+    handleInfectionRateChange(event, value) {
+        this.setState({
+            infectionRate: value / 100
+        });
+    }
+
+    handleStepsToRecoveryChange(event, value) {
+        this.setState({
+            stepsToRecovery: value
+        });
+    }
+
+    handleStepsToDeathChange(event, value) {
+        this.setState({
+            stepsToDeath: value
+        });
     }
 
     componentDidMount() {
@@ -41,7 +64,7 @@ class Grid extends React.Component {
     }
 
     setNodeInitialInfectionStatus() {
-        if (Math.random() <= this.props.infectionRate) {
+        if (Math.random() <= this.state.infectionRate) {
             return statuses.INFECTED;
         } else {
             return statuses.SUSCEPTIBLE;
@@ -49,7 +72,7 @@ class Grid extends React.Component {
     }
 
     setNodeInfectionStatus(numInfectedNeighbours) {
-        if (Math.random() <= (1 - Math.pow((1 - this.props.infectionRate), numInfectedNeighbours))) {
+        if (Math.random() <= (1 - Math.pow((1 - this.state.infectionRate), numInfectedNeighbours))) {
             return statuses.INFECTED;
         } else {
             return statuses.SUSCEPTIBLE;
@@ -68,9 +91,9 @@ class Grid extends React.Component {
 
     setNodeStepsToEventualStatus(eventualStatus) {
         if (eventualStatus === statuses.RECOVERED) {
-            return this.props.meanStepsToRecovery;
+            return this.props.stepsToRecovery;
         } else if (eventualStatus === statuses.DEAD) {
-            return this.props.meanStepsToDeath;
+            return this.props.stepsToDeath;
         } else {
             return -1;
         }
@@ -240,9 +263,10 @@ class Grid extends React.Component {
     render() {
         let gridStyle = {
             'display': 'grid',
-            'gridGap': '0.1em',
+            'gridGap': '1px',
             'gridTemplateRows': `repeat(${this.props.gridDimension}, ${this.props.nodeDimension}px)`,
-            'gridTemplateColumns': `repeat(${this.props.gridDimension}, ${this.props.nodeDimension}px)`
+            'gridTemplateColumns': `repeat(${this.props.gridDimension}, ${this.props.nodeDimension}px)`,
+            'justifyContent': 'center'
         };
 
         return (
@@ -253,29 +277,96 @@ class Grid extends React.Component {
                 </div>
 
                 {/* Playback controls */}
-                <IconButton variant="contained" onClick={this.togglePlayPause}>
-                    {this.state.playAnimation ? <PauseIcon /> : <PlayArrowIcon />}
-                </IconButton>
-                <Button variant="contained" onClick={this.handleStepButtonClick}>
-                    Step
-                </Button>
-                <Button variant="contained" onClick={this.resetAnimation}>
-                    Reset
-                </Button>
-
-                {/* Parameter controls */}
-                <div className="slider">
-                    <Slider
-                        value={Math.round(this.state.deathRate * 100)}
-                        onChange={this.handleDeathRateChange}
-                        aria-labelledby="discrete-slider"
-                        valueLabelDisplay="auto"
-                        step={1}
-                        marks={sliderMarks}
-                        min={0}
-                        max={100}
-                    />
+                {this.props.showPlaybackControls &&
+                <div className="Hflex">
+                    <Button className="button" variant="contained" onClick={this.resetAnimation}>
+                        Reset
+                    </Button>
+                    <IconButton variant="contained" onClick={this.togglePlayPause}>
+                        {this.state.playAnimation ? <PauseIcon /> : <PlayArrowIcon />}
+                    </IconButton>
+                    <Button className="button" variant="contained" onClick={this.handleStepButtonClick}>
+                        Step
+                    </Button>
                 </div>
+                }
+
+                {(this.props.showInfectionRateSlider || this.props.showDeathRateSlider || this.props.showStepsToRecoverySlider || this.props.showStepsToDeathSlider) &&
+                    <div>
+                        <div className='Spacer'></div>
+
+                        {/* Parameter controls */}
+                        <div className="Vflex">
+                            {/* Infection Rate */}
+                            {this.props.showInfectionRateSlider &&
+                                <div className="slider-background">
+                                    <p className="slider-title">Transmission Rate: {Math.round(this.state.infectionRate * 100)}%</p>
+                                    <div className="slider">
+                                        <Slider
+                                            value={Math.round(this.state.infectionRate * 100)}
+                                            onChange={this.handleInfectionRateChange}
+                                            aria-labelledby="infection-rate-slider"
+                                            step={1}
+                                            min={0}
+                                            max={100}
+                                        />
+                                    </div>
+                                </div>
+                            }
+
+                            {/* Death Rate */}
+                            {this.props.showDeathRateSlider &&
+                                <div className="slider-background">
+                                    <p className="slider-title">Death Rate: {Math.round(this.state.deathRate * 100)}%</p>
+                                    <div className="slider">
+                                        <Slider
+                                            value={Math.round(this.state.deathRate * 100)}
+                                            onChange={this.handleDeathRateChange}
+                                            aria-labelledby="death-rate-slider"
+                                            step={1}
+                                            min={0}
+                                            max={100}
+                                        />
+                                    </div>
+                                </div>
+                            }
+
+                            {/*  Steps to recovery */}
+                            {this.props.showStepsToRecoverySlider &&
+                                <div className="slider-background">
+                                    <p className="slider-title">Time to Recovery: {this.state.stepsToRecovery} days</p>
+                                    <div className="slider">
+                                        <Slider
+                                            value={this.state.stepsToRecovery}
+                                            onChange={this.handleStepsToRecoveryChange}
+                                            aria-labelledby="steps-to-recovery-slider"
+                                            step={1}
+                                            min={0}
+                                            max={21}
+                                        />
+                                    </div>
+                                </div>
+                            }
+
+                            {/*  Steps to death */}
+                            {this.props.showStepsToDeathSlider &&
+                                <div className="slider-background">
+                                    <p className="slider-title">Time to Death: {this.state.stepsToDeath} days</p>
+                                    <div className="slider">
+                                        <Slider
+                                            value={this.state.stepsToDeath}
+                                            onChange={this.handleStepsToDeathChange}
+                                            aria-labelledby="steps-to-death-slider"
+                                            step={1}
+                                            min={0}
+                                            max={21}
+                                        />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
 
             </div>
         );
