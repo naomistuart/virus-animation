@@ -29,6 +29,9 @@ class Grid extends React.Component {
         this.handleInfectionRateChange = this.handleInfectionRateChange.bind(this);
         this.handleStepsToRecoveryChange = this.handleStepsToRecoveryChange.bind(this);
         this.handleStepsToDeathChange = this.handleStepsToDeathChange.bind(this);
+    
+    
+        console.log("node dimensions "+this.props.nodeDimension);
     }
 
     handleDeathRateChange(event, value) {

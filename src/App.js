@@ -4,6 +4,8 @@ import Grid from './Components/Grid';
 import NonRandomGrid from './Components/NonRandomGrid';
 import Container from '@material-ui/core/Container';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 function App() {
       return (
@@ -47,8 +49,8 @@ function App() {
 
                   <p>Click the <PlayArrowIcon className='playIcon' /> button to see how the disease spreads through the population!</p>
 
-                  <Grid nodeDimension={11}
-                        gridDimension={31}
+                  <Grid nodeDimension={useMediaQuery('(min-width:600px)', {noSsr:true}) ? 11 : 6}
+                        gridDimension={35}
                         infectionRate={0.4}
                         deathRate={0}
                         stepsToRecovery={1}
@@ -103,8 +105,8 @@ function App() {
 
                   <p>Try varying the death rate in this next iteration of the model to see how the population fares.</p>
 
-                  <Grid nodeDimension={11}
-                        gridDimension={31}
+                  <Grid nodeDimension={useMediaQuery('(min-width:600px)', {noSsr:true}) ? 11 : 6}
+                        gridDimension={35}
                         infectionRate={0.4}
                         deathRate={0.05}
                         stepsToRecovery={1}
@@ -124,8 +126,8 @@ function App() {
 
                   <p>In reality, however, it likely takes a bit longer than a day. In this model, we add sliders to vary the time from infection to recovery, and the time from infection to death.</p>
 
-                  <Grid nodeDimension={11}
-                        gridDimension={31}
+                  <Grid nodeDimension={useMediaQuery('(min-width:600px)', {noSsr:true}) ? 11 : 6}
+                        gridDimension={35}
                         infectionRate={0.4}
                         deathRate={0.05}
                         stepsToRecovery={4}
@@ -160,7 +162,7 @@ function App() {
 
                   <p><span className='susceptible label'><strong>Susceptible</strong></span> | <span className='infected label'><strong>Infected</strong></span> | <span className='recovered label'><strong>Recovered</strong></span> | <span className='dead label'><strong>Dead</strong></span></p>
 
-                  <Grid nodeDimension={11}
+                  <Grid nodeDimension={useMediaQuery('(min-width:600px)', {noSsr:true}) ? 11 : 6}
                         gridDimension={45}
                         infectionRate={0.4}
                         deathRate={0.05}
