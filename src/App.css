@@ -74,6 +74,7 @@ p, li {
 
 .dead {
   background: #525252;
+  color: white;
 }
 
 .node {

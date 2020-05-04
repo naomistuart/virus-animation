@@ -91,9 +91,9 @@ class Grid extends React.Component {
 
     setNodeStepsToEventualStatus(eventualStatus) {
         if (eventualStatus === statuses.RECOVERED) {
-            return this.props.stepsToRecovery;
+            return this.state.stepsToRecovery;
         } else if (eventualStatus === statuses.DEAD) {
-            return this.props.stepsToDeath;
+            return this.state.stepsToDeath;
         } else {
             return -1;
         }
@@ -334,7 +334,7 @@ class Grid extends React.Component {
                             {/*  Steps to recovery */}
                             {this.props.showStepsToRecoverySlider &&
                                 <div className="slider-background">
-                                    <p className="slider-title">Time to Recovery: {this.state.stepsToRecovery} days</p>
+                                    <p className="slider-title">{`Time to Recovery: ${this.state.stepsToRecovery} ${this.state.stepsToRecovery===1 ? 'day' : 'days'}`}</p>
                                     <div className="slider">
                                         <Slider
                                             value={this.state.stepsToRecovery}
@@ -351,7 +351,7 @@ class Grid extends React.Component {
                             {/*  Steps to death */}
                             {this.props.showStepsToDeathSlider &&
                                 <div className="slider-background">
-                                    <p className="slider-title">Time to Death: {this.state.stepsToDeath} days</p>
+                                    <p className="slider-title">{`Time to Death: ${this.state.stepsToDeath} ${this.state.stepsToDeath===1 ? 'day' : 'days'}`}</p>
                                     <div className="slider">
                                         <Slider
                                             value={this.state.stepsToDeath}

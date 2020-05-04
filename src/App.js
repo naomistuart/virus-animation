@@ -99,12 +99,14 @@ class App extends React.Component {
         <code>1 - (1 - transmission_rate)<sup>num_infected_neighbours</sup></code>
 
         <h2>Death</h2>
-        <p>some text</p>    
+        <p>So far we have assumed all infected individuals eventually recover. Unfortunately this is not the case in real life, where some infected people end up <span className='dead label'><strong>dead</strong></span>.</p>
+
+        <p>Try varying the death rate in this next iteration of the model to see how the population fares.</p>
 
         <Grid nodeDimension={11}
               gridDimension={31}
               infectionRate={0.4}
-              deathRate={0.08}
+              deathRate={0.05}
               stepsToRecovery={1}
               stepsToDeath={1}
               animationSpeed={50}
@@ -117,15 +119,18 @@ class App extends React.Component {
         />
 
         <h2>Time to Recovery or Death</h2>
-        <p>some text</p>    
+
+        <p>Once a person becomes infected, how long does it take for them to either recover or die? In our previous models, we made the simplifying assumption that it takes one day, or <strong>one step of the animation</strong>. (Try using the <strong>STEP</strong> button on previous models to confirm this!)</p>
+
+        <p>In reality, however, it likely takes a bit longer than a day. In this model, we add sliders to vary the time from infection to recovery, and the time from infection to death.</p>
 
         <Grid nodeDimension={11}
               gridDimension={31}
-              infectionRate={0.13}
-              deathRate={0.08}
+              infectionRate={0.4}
+              deathRate={0.05}
               stepsToRecovery={4}
               stepsToDeath={10}
-              animationSpeed={1}
+              animationSpeed={50}
               startWithSingleInfectedNode={true}
               showInfectionRateSlider={true}
               showDeathRateSlider={true}
@@ -134,13 +139,31 @@ class App extends React.Component {
               showPlaybackControls={true}
         />
 
+        <h3>Varying the time to recovery / death</h3>
+
+        <p>What's the first thing you notice?</p>
+
+        <p>With the transmission rate kept at 40%, the virus now affects the whole population with almost complete certainty. Contrast this with earlier models, where a 40% transmission rate usually spared a small number of individuals in the population, who remain unaffected.</p>
+
+        <p>The logic is intuitive. If a person takes longer to recover or die, it means they <strong>remain infectious for a longer period of time</strong>, during which they have the opportunity to infect a greater number of people.</p>
+
+        <h3>Limitations</h3>
+
+        <p>Of course, this is not completely realistic. Given an individual is aware they are infected (i.e. they are not an asymptomatic silent carrier), one would assume (or hope) that they would be self-isolating, or quarantined in hospital. In this case, they would cease to infect others.</p>
+
+        <p>A more refined model could explore the effects of isolation and social distancing.</p>
+
         <h2>Complete Model</h2>
-        <p>some text</p>    
+        <p>some text</p>
+
+        <p>As a reminder, here are the possible states:</p>
+
+        <p><span className='susceptible label'><strong>Susceptible</strong></span> | <span className='infected label'><strong>Infected</strong></span> | <span className='recovered label'><strong>Recovered</strong></span> | <span className='dead label'><strong>Dead</strong></span></p>
 
         <Grid nodeDimension={11}
               gridDimension={45}
-              infectionRate={0.13}
-              deathRate={0.08}
+              infectionRate={0.4}
+              deathRate={0.05}
               stepsToRecovery={4}
               stepsToDeath={10}
               animationSpeed={1}
