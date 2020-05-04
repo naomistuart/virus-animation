@@ -1,17 +1,13 @@
-.App {
-  text-align: center;
-  width: 100%;
-}
-
 .slider {
-  width: 400px;
   margin: 0;
   padding: 0;
 }
 
 .slider-background {
-  margin: 5px 0px;
+  margin: 3px 0px;
   padding: 0px;
+  width: 80%;
+  max-width: 400px;
 }
 
 .slider-title {
@@ -95,4 +91,12 @@ code {
   font-size: 14px;
   color: #d33682;
   padding: 3.5px;
+}
+
+.playIcon {
+  vertical-align: middle;
+}
+
+h1 {
+  padding: 20px 0 0 0;
 }

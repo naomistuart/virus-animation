@@ -29,8 +29,7 @@ class Node extends React.PureComponent {
             'height': this.props.nodeDimension,
             'background': background,
             'textAlign': 'center',
-            // 'fontSize': '12px',
-            'display': 'inline-block',
+            'lineHeight': '1.5rem',
             'verticalAlign': 'middle',
         };
 
