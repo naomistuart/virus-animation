@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-
 function App() {
       return (
             <Container maxWidth='sm'>
@@ -22,7 +21,7 @@ function App() {
 
                   <p>For a virus to spread, we first need a <strong>population</strong>.</p>
 
-                  <p>In these animations, we represent the population as a grid. Each square, or node, in the grid represents one person in the population.</p>
+                  <p>Here we represent the population as a grid. Each square, or node, in the grid represents one person in the population.</p>
 
                   <p>The following grid models a population of 25 people. The person in the center is <span className='infected label'><strong>infected</strong></span>. All other individuals are <span className='susceptible label'><strong>susceptible</strong></span>, meaning they are not currently infected, but are at risk of becoming so.</p>
 
@@ -45,7 +44,7 @@ function App() {
 
                   <p>The virus spreads when an infected person <strong>transmits</strong> the disease to a susceptible person.</p>
 
-                  <p>We define the <strong>transmission rate</strong> as the probability that a susceptible individual acquires the disease from its infected neighbour.</p>
+                  <p>We define the <strong>transmission rate</strong> as the probability that a susceptible individual acquires the disease from its infected neighbour during a particular encounter.</p>
 
                   <p>Click the <PlayArrowIcon className='playIcon' /> button to see how the disease spreads through the population!</p>
 
@@ -75,11 +74,13 @@ function App() {
                         <li>Above this threshold, the infection spreads throughout the population and usually infects almost everyone.</li>
                   </ul>
 
+                  <p>(For an in-depth discussion on transmission rates and critical thresholds, check out another one of Kevin Simler's articles <a href="https://www.meltingasphalt.com/interactive/going-critical/">here</a>.)</p>
+
                   <h3>How does the transmission rate work?</h3>
 
-                  <p>In our grid model, each individual has <strong>four</strong> neighbours from which it could potentially catch the disease (top, bottom, left and right - diagonal neighbours are not counted).</p>
+                  <p>In our grid model, each individual has <strong>four neighbours</strong> from which it could potentially catch the disease (top, bottom, left and right - diagonal neighbours are not counted).</p>
 
-                  <p>The probability that an individual becomes infected depends not only on the transmission rate, but also on the <strong>number of infected neighbours</strong>.</p>
+                  <p>The probability that an individual becomes infected depends not only on the transmission rate, but also on its <strong>number of infected neighbours</strong>.</p>
 
                   <p>In the example below, the node marked <span className='susceptible node'>?</span> has two infected neighbours, marked <span className='infected node'>1</span> and <span className='infected node'>2</span>. Say the transmission rate is 40%. What is the probability that <span className='susceptible node'>?</span> becomes infected?</p>
 
@@ -90,7 +91,7 @@ function App() {
                         numberedNodes={[12, 16]}
                   />
 
-                  <p>It is, in fact, easier to first calculate the probability that <span className='susceptible'>?</span> does <em>not</em> become infected.</p>
+                  <p>It is, in fact, easier to first calculate the probability that <span className='susceptible node'>?</span> does <em>not</em> become infected.</p>
 
                   <p>For each neighbour, the probability that <span className='susceptible node'>?</span> does not become infected is <code>1 - transmission_rate = 1 - 0.4 = 0.6</code>. Since there are two infected neighbours, the probability that <span className='susceptible node'>?</span> becomes infected by <em>neither</em> neighbour is <code>(1 - transmission_rate)&sup2; = (1 - 0.4)&sup2; = 0.36</code>.</p>
 
@@ -145,13 +146,13 @@ function App() {
 
                   <p>What's the first thing you notice?</p>
 
-                  <p>With the transmission rate kept at 40%, the virus now affects the whole population with almost complete certainty. Contrast this with earlier models, where a 40% transmission rate usually spared a small number of individuals in the population, who remain unaffected.</p>
+                  <p>With the transmission rate kept at 40%, the virus now affects the whole population with almost complete certainty. Contrast this with earlier models, where a 40% transmission rate usually spare a small number of individuals in the population, who remain unaffected.</p>
 
                   <p>The logic is intuitive. If a person takes longer to recover or die, it means they <strong>remain infectious for a longer period of time</strong>, during which they have the opportunity to infect a greater number of people.</p>
 
                   <h3>Limitations</h3>
 
-                  <p>Of course, this is not completely realistic. Given an individual is aware they are infected (i.e. they are not an asymptomatic silent carrier), one would assume (or hope) that they would be self-isolating, or quarantined in hospital. In this case, they would cease to infect others.</p>
+                  <p>Of course, this is not completely realistic. Given an individual is aware they are infected (i.e. they are not an asymptomatic silent carrier), one would assume (or hope) that they would be self-isolating, or quarantined in hospital. In this case, they would have a reduced chance of infecting others.</p>
 
                   <p>A more refined model could explore the effects of isolation and social distancing.</p>
 
@@ -168,7 +169,7 @@ function App() {
                         deathRate={0.05}
                         stepsToRecovery={4}
                         stepsToDeath={10}
-                        animationSpeed={1}
+                        animationSpeed={50}
                         startWithSingleInfectedNode={true}
                         showInfectionRateSlider={true}
                         showDeathRateSlider={true}
