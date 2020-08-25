@@ -4,6 +4,9 @@ An interactive React web app to visualise the spread of a virus in a population.
 
 Inspired by Kevin Simler's excellent [article](https://github.com/kevinsimler/outbreak) and associated [repo](https://github.com/kevinsimler/outbreak).
 
+## Demo
+![](demo.gif)
+
 ## Built with
 - React - this project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
 - [Material UI](https://material-ui.com/) - for React UI components
